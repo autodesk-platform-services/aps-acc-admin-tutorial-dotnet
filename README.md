@@ -1,11 +1,11 @@
-# Hubs Browser (.NET)
+# ACC Admin Tutorial (.NET)
 
 ![platforms](https://img.shields.io/badge/platform-windows%20%7C%20osx%20%7C%20linux-lightgray.svg)
 [![.net](https://img.shields.io/badge/net-6.0-blue.svg)](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 [![license](https://img.shields.io/:license-mit-green.svg)](https://opensource.org/licenses/MIT)
 
 [Autodesk Platform Services](https://aps.autodesk.com) application built by following
-the [Hubs Browser](https://tutorials.autodesk.io/tutorials/hubs-browser/) tutorial
+the [ACC Administractor](https://tutorials.autodesk.io/tutorials/acc-admin/) tutorial
 from https://tutorials.autodesk.io.
 
 ![thumbnail](thumbnail.png)
@@ -14,9 +14,9 @@ from https://tutorials.autodesk.io.
 
 ### Prerequisites
 
-- [APS credentials](https://forge.autodesk.com/en/docs/oauth/v2/tutorials/create-app)
-- Provisioned access to [BIM 360 Docs](https://forge.autodesk.com/en/docs/bim360/v1/tutorials/getting-started/manage-access-to-docs/)
-or Autodesk Construction Cloud
+- [APS credentials](https://aps.autodesk.com/en/docs/oauth/v2/tutorials/create-app)
+- [Autodesk Construction Cloud](https://fieldofviewblog.wordpress.com/2017/08/31/bim-360-acc-account-for-development/)
+- Provisioned access to [Autodesk Construction Cloud](https://tutorials.autodesk.io/#provision-access-in-other-products)
 - [.NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 - Terminal (for example, [Windows Command Prompt](https://en.wikipedia.org/wiki/Cmd.exe)
 or [macOS Terminal](https://support.apple.com/guide/terminal/welcome/mac))
@@ -31,7 +31,7 @@ or [macOS Terminal](https://support.apple.com/guide/terminal/welcome/mac))
   - `APS_CALLBACK_URL` - URL for your users to be redirected to after they successfully log in with their Autodesk account
     - For local development, the callback URL is `http://localhost:8080/api/auth/callback`
     - For applications deployed to a custom domain, the callback URL is `http://<your-domain>/api/auth/callback` or `https://<your-domain>/api/auth/callback`
-    - Do not forget to update the callback URL for your application in https://forge.autodesk.com/myapps as well
+    - Do not forget to update the callback URL for your application in https://aps.autodesk.com/myapps as well
 - Run the server: `dotnet run`
 
 > When using [Visual Studio Code](https://code.visualstudio.com),
@@ -40,7 +40,7 @@ folder, and run & debug the application directly from the editor.
 
 ## Troubleshooting
 
-Please contact us via https://forge.autodesk.com/en/support/get-help.
+Please contact us via https://aps.autodesk.com/en/support/get-help.
 
 ## License
 
