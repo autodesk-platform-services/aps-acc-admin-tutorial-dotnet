@@ -9,43 +9,39 @@ public partial class APS
     {
         AuthenticationClient authenticationClient = new AuthenticationClient(_SDKManager);
         ResponseType responseType = ResponseType.Code;
-        return authenticationClient.Authorize(_clientId, responseType, _callbackUri, InternalTokenScopes);
+        return authenticationClient.Authorize(_clientId, responseType, _callbackUri, TokenScopes);
 
     }
 
     public async Task<Tokens> GenerateTokens(string code)
     {
         AuthenticationClient authenticationClient = new AuthenticationClient(_SDKManager);
-        dynamic internalAuth = await authenticationClient.GetThreeLeggedTokenAsync(_clientId, _clientSecret, code, _callbackUri);
-        dynamic publicAuth = await authenticationClient.GetRefreshTokenAsync(_clientId, _clientSecret, internalAuth.RefreshToken, PublicTokenScopes);
+        dynamic Token = await authenticationClient.GetThreeLeggedTokenAsync(_clientId, _clientSecret, code, _callbackUri);
         
         return new Tokens
         {
-            PublicToken = publicAuth.AccessToken,
-            InternalToken = internalAuth.AccessToken,
-            RefreshToken = publicAuth._RefreshToken,
-            ExpiresAt = DateTime.Now.ToUniversalTime().AddSeconds(internalAuth.ExpiresIn)
+            AccessToken = Token.AccessToken,
+            RefreshToken = Token.RefreshToken,
+            ExpiresAt = DateTime.Now.ToUniversalTime().AddSeconds(Token.ExpiresIn)
         };
     }
 
     public async Task<Tokens> RefreshTokens(Tokens tokens)
     {
         AuthenticationClient authenticationClient = new AuthenticationClient(_SDKManager);
-        dynamic internalAuth = await authenticationClient.GetRefreshTokenAsync(_clientId, _clientSecret, tokens.RefreshToken, InternalTokenScopes);
-        dynamic publicAuth = await authenticationClient.GetRefreshTokenAsync(_clientId, _clientSecret, internalAuth._RefreshToken, PublicTokenScopes);
+        dynamic Token = await authenticationClient.GetRefreshTokenAsync(_clientId, _clientSecret, tokens.RefreshToken, TokenScopes);
         return new Tokens
         {
-            PublicToken = publicAuth.AccessToken,
-            InternalToken = internalAuth.AccessToken,
-            RefreshToken = publicAuth._RefreshToken,
-            ExpiresAt = DateTime.Now.ToUniversalTime().AddSeconds(internalAuth.ExpiresIn)
+            AccessToken = Token.AccessToken,
+            RefreshToken = Token.RefreshToken,
+            ExpiresAt = DateTime.Now.ToUniversalTime().AddSeconds(Token.ExpiresIn)
         };
     }
 
     public async Task<dynamic> GetUserProfile(Tokens tokens)
     {
         AuthenticationClient authenticationClient = new AuthenticationClient(_SDKManager);
-        dynamic profile = await authenticationClient.GetUserInfoAsync(tokens.InternalToken);
+        dynamic profile = await authenticationClient.GetUserInfoAsync(tokens.AccessToken);
         return profile;
     }
 }

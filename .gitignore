@@ -456,3 +456,4 @@ $RECYCLE.BIN/
 # Custom
 .env*
 appsettings.Development.json
+/Properties/launchSettings.json

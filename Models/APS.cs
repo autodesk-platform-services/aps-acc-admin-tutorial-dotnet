@@ -5,8 +5,7 @@ using Autodesk.Authentication.Model;
 
 public class Tokens
 {
-    public string InternalToken;
-    public string PublicToken;
+    public string AccessToken;
     public string RefreshToken;
     public DateTime ExpiresAt;
 }
@@ -17,8 +16,8 @@ public partial class APS
     private readonly string _clientSecret;
     private readonly string _callbackUri;
     private SDKManager _SDKManager;
-    private readonly List<Scopes> InternalTokenScopes = new List<Scopes> { Scopes.DataRead, Scopes.ViewablesRead };
-    private readonly List<Scopes> PublicTokenScopes = new List<Scopes> { Scopes.ViewablesRead };
+    private readonly List<Scopes> TokenScopes = new List<Scopes> { Scopes.DataRead, Scopes.AccountRead, Scopes.AccountWrite };
+    private readonly string Base_Domain = "https://developer.api.autodesk.com";
 
     public APS(string clientId, string clientSecret, string callbackUri)
     {

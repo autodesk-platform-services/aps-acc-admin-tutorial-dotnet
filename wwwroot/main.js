@@ -1,4 +1,4 @@
-import { initViewer, loadModel } from './viewer.js';
+import { refreshTable, initTableTabs } from './table.js';
 import { initTree } from './sidebar.js';
 
 const login = document.getElementById('login');
@@ -17,8 +17,8 @@ try {
                 document.body.removeChild(iframe);
             };
         }
-        const viewer = await initViewer(document.getElementById('preview'));
-        initTree('#tree', (id) => loadModel(viewer, window.btoa(id).replace(/=/g, '')));
+        initTree('#tree', (accountId, projectId) => refreshTable(accountId, projectId));
+        await initTableTabs();
     } else {
         login.innerText = 'Login';
         login.onclick = () => window.location.replace('/api/auth/login');
