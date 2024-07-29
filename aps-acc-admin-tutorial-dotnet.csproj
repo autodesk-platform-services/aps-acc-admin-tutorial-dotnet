@@ -3,11 +3,12 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Autodesk.ModelDerivative" Version="1.0.0-beta3" />
-    <PackageReference Include="Autodesk.SDKManager" Version="1.0.0-beta1" />
-    <PackageReference Include="Autodesk.Oss" Version="1.0.0-beta3" />
-    <PackageReference Include="Autodesk.Authentication" Version="1.0.0-beta1" />   
-    <PackageReference Include="Autodesk.DataManagement" Version="1.0.0-beta3" />   
+    <PackageReference Include="Autodesk.Construction.AccountAdmin" Version="1.0.0-beta1" />
+    <PackageReference Include="Autodesk.ModelDerivative" Version="1.0.0" />
+    <PackageReference Include="Autodesk.SDKManager" Version="1.0.0" />
+    <PackageReference Include="Autodesk.Oss" Version="1.1.1" />
+    <PackageReference Include="Autodesk.Authentication" Version="1.0.0" />   
+    <PackageReference Include="Autodesk.DataManagement" Version="1.0.0" />   
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.11" />   
     <PackageReference Include="RestSharp" Version="110.2.0" />
   </ItemGroup>
