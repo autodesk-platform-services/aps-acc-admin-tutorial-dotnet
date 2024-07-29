@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Autodesk.Construction.AccountAdmin;
 using Autodesk.Construction.AccountAdmin.Model;
 using System;
-using RestSharp;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
