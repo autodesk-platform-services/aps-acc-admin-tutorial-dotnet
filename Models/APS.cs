@@ -17,7 +17,6 @@ public partial class APS
     private readonly string _callbackUri;
     private SDKManager _SDKManager;
     private readonly List<Scopes> TokenScopes = new List<Scopes> { Scopes.DataRead, Scopes.AccountRead, Scopes.AccountWrite };
-    private readonly string Base_Domain = "https://developer.api.autodesk.com";
 
     public APS(string clientId, string clientSecret, string callbackUri)
     {

@@ -56,7 +56,7 @@ public partial class APS
     public async Task<dynamic> CreateProject(string accountId, JObject body, Tokens tokens)
     {
         AdminClient adminClient = new AdminClient(_SDKManager);
-        ProjectPayload projectPayload = new ProjectPayload();
+        var projectPayload = body.ToObject<ProjectPayload>();
         var newProject = await adminClient.CreateProjectAsync(tokens.AccessToken, accountId, projectPayload);
         return newProject;
     }
@@ -91,7 +91,7 @@ public partial class APS
     public async Task<dynamic> ImportProjectUsersACC(string projectId, JObject body, Tokens tokens)
     {
         AdminClient adminClient = new AdminClient(_SDKManager);
-        var projectUsersPayload = new ProjectUsersImportPayload();
+        var projectUsersPayload = body.ToObject<ProjectUsersImportPayload>();
         var usersRes = await adminClient.ImportProjectUsersAsync(tokens.AccessToken, projectId, projectUsersPayload);
         return usersRes;
     }

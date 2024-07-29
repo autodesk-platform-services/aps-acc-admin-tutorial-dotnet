@@ -73,10 +73,10 @@ public class AdminController : ControllerBase
         {
             try
             {
-                JObject projectInfo = await _aps.CreateProject(accountId, project, tokens);
-                projectsCreated.Add(projectInfo["name"].Value<string>());
+                var projectInfo = await _aps.CreateProject(accountId, project, tokens);
+                projectsCreated.Add(projectInfo.Name);
                 var profile = await _aps.GetUserProfile(tokens);
-                var userInfo = await _aps.AddProjectAdminACC(projectInfo["id"].Value<string>(), profile.Email, tokens);
+                var userInfo = await _aps.AddProjectAdminACC(projectInfo.Id, profile.Email, tokens);
             }catch(Exception ex)
             {
                 Console.WriteLine($"Exception when creating project: {ex.Message}");
