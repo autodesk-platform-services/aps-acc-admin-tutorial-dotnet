@@ -17,7 +17,7 @@ from https://tutorials.autodesk.io.
 - [APS credentials](https://aps.autodesk.com/en/docs/oauth/v2/tutorials/create-app)
 - [Autodesk Construction Cloud](https://fieldofviewblog.wordpress.com/2017/08/31/bim-360-acc-account-for-development/)
 - Provisioned access to [Autodesk Construction Cloud](https://tutorials.autodesk.io/#provision-access-in-other-products)
-- [.NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+- [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 - Terminal (for example, [Windows Command Prompt](https://en.wikipedia.org/wiki/Cmd.exe)
 or [macOS Terminal](https://support.apple.com/guide/terminal/welcome/mac))
 

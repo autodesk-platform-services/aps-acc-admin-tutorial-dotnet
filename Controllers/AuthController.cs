@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -68,7 +69,7 @@ public class AuthController : ControllerBase
     [HttpGet("profile")]
     public async Task<dynamic> GetProfile()
     {
-        
+
         var tokens = await PrepareTokens(Request, Response, _aps);
         if (tokens == null)
         {

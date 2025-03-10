@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 // using Autodesk.Forge;
 // using Autodesk.Forge.Model;
@@ -13,16 +13,18 @@ public partial class APS
     {
         DataManagementClient dataManagementClient = new DataManagementClient(_SDKManager);
         var getHubs = await dataManagementClient.GetHubsAsync(accessToken: tokens.AccessToken);
-        var hubsData = getHubs.Data.Where( hub => hub.Id.StartsWith( "b.") );
+        var hubsData = getHubs.Data.Where(hub => hub.Id.StartsWith("b."));
         return hubsData;
     }
 
     public async Task<IEnumerable<dynamic>> GetProjects(string hubId, Tokens tokens)
     {
         DataManagementClient dataManagementClient = new DataManagementClient(_SDKManager);
-        var getHubProjects = await dataManagementClient.GetHubProjectsAsync(hubId: hubId, accessToken: tokens.AccessToken);
-        var projectsData = getHubProjects.Data.Where( project => project.Attributes.Extension.Data.ProjectType == "ACC" );
-        return projectsData;
+        var hubProjects = await dataManagementClient.GetHubProjectsAsync(hubId: hubId, accessToken: tokens.AccessToken);
+        return hubProjects.Data
+        .Where(project => project.Attributes.Extension.Data.TryGetValue("projectType", out var projectType) &&
+                          projectType?.ToString() == "ACC")
+        .ToList();
     }
 
     public async Task<IEnumerable<dynamic>> GetContents(string hubId, string projectId, string folderId, Tokens tokens)
@@ -31,13 +33,13 @@ public partial class APS
         if (string.IsNullOrEmpty(folderId))
         {
             var projectTopFolders = await dataManagementClient.GetProjectTopFoldersAsync(hubId: hubId, projectId: projectId, accessToken: tokens.AccessToken);
-            List<TopFoldersData> topFoldersData =  projectTopFolders.Data;
+            List<TopFolderData> topFoldersData = projectTopFolders.Data;
 
             return topFoldersData;
         }
-        
+
         FolderContents folderContents = await dataManagementClient.GetFolderContentsAsync(projectId: projectId, folderId: folderId, accessToken: tokens.AccessToken);
-        List<FolderContentsData> folderContentsData = folderContents.Data;
+        List<IFolderContentsData> folderContentsData = folderContents.Data;
 
         return folderContentsData;
     }

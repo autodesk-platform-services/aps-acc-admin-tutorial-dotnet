@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Autodesk.Construction.AccountAdmin;
 using Autodesk.Construction.AccountAdmin.Model;
@@ -8,34 +8,33 @@ using Newtonsoft.Json.Linq;
 
 public partial class APS
 {
-
-    public async Task<IEnumerable<dynamic>> getProjectsACC(string accountId, Tokens tokens)
+    public async Task<IEnumerable<dynamic>> GetProjectsACC(string accountId, Tokens tokens)
     {
         AdminClient adminClient = new AdminClient(_SDKManager);
-        var allProjects = new List<Project>();
+        List<Project> allProjects = new List<Project>();
         var offset = 0;
         var totalResult = 0;
         do
         {
-            var projects = await adminClient.GetProjectsAsync(tokens.AccessToken, accountId);
+            var projects = await adminClient.GetProjectsAsync(accountId,accessToken:tokens.AccessToken);
             allProjects.AddRange(projects.Results);
-            offset +=  (int)projects.Pagination.Limit;
+            offset += (int)projects.Pagination.Limit;
             totalResult = (int)projects.Pagination.TotalResults;
-        }while (offset < totalResult);
+        } while (offset < totalResult);
         return allProjects;
     }
 
-    public async Task<IEnumerable<dynamic>> GetProjectACC( string projectId, Tokens tokens)
+    public async Task<IEnumerable<dynamic>> GetProjectACC(string projectId, Tokens tokens)
     {
         AdminClient adminClient = new AdminClient(_SDKManager);
-        var project = await adminClient.GetProjectAsync(tokens.AccessToken, projectId );
+        var project = await adminClient.GetProjectAsync(projectId, accessToken: tokens.AccessToken);
         var projects = new List<Project>();
         projects.Add(project);
         return projects;
     }
 
 
-    public async Task<IEnumerable<dynamic>> GetProjectUsersACC( string projectId, Tokens tokens)
+    public async Task<IEnumerable<dynamic>> GetProjectUsersACC(string projectId, Tokens tokens)
     {
         AdminClient adminClient = new AdminClient(_SDKManager);
         var allUsers = new List<ProjectUser>();
@@ -43,8 +42,8 @@ public partial class APS
         var totalResult = 0;
         do
         {
-            var users = await adminClient.GetProjectUsersAsync(tokens.AccessToken, projectId);
-            allUsers.AddRange(users.Results);
+            var users = await adminClient.GetProjectUsersAsync(projectId, accessToken: tokens.AccessToken );
+            allUsers.AddRange(users.Results);            
             offset += (int)users.Pagination.Limit;
             totalResult = (int)users.Pagination.TotalResults;
         } while (offset < totalResult);
@@ -56,7 +55,7 @@ public partial class APS
     {
         AdminClient adminClient = new AdminClient(_SDKManager);
         var projectPayload = body.ToObject<ProjectPayload>();
-        var newProject = await adminClient.CreateProjectAsync(tokens.AccessToken, accountId, projectPayload);
+        var newProject = await adminClient.CreateProjectAsync(accountId, projectPayload, accessToken: tokens.AccessToken);
         return newProject;
     }
 
@@ -82,7 +81,7 @@ public partial class APS
                 }
             }
         };
-        var projectUser = await adminClient.AssignProjectUserAsync(tokens.AccessToken, projectId, adminUser);
+        var projectUser = await adminClient.AssignProjectUserAsync(projectId, adminUser, accessToken: tokens.AccessToken);
         return projectUser;
     }
 
@@ -91,7 +90,7 @@ public partial class APS
     {
         AdminClient adminClient = new AdminClient(_SDKManager);
         var projectUsersPayload = body.ToObject<ProjectUsersImportPayload>();
-        var usersRes = await adminClient.ImportProjectUsersAsync(tokens.AccessToken, projectId, projectUsersPayload);
+        var usersRes = await adminClient.ImportProjectUsersAsync(projectId, projectUsersPayload, accessToken: tokens.AccessToken);
         return usersRes;
     }
 }

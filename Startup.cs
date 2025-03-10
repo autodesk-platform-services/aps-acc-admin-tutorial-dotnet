@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,11 +21,12 @@ public class Startup
         var clientID = Configuration["APS_CLIENT_ID"];
         var clientSecret = Configuration["APS_CLIENT_SECRET"];
         var callbackURL = Configuration["APS_CALLBACK_URL"];
-        if (string.IsNullOrEmpty(clientID) || string.IsNullOrEmpty(clientSecret) || string.IsNullOrEmpty(callbackURL))
+        var server_Session_Secret = Configuration["SERVER_SESSION_SECRET"];
+        if (string.IsNullOrEmpty(clientID) || string.IsNullOrEmpty(clientSecret) || string.IsNullOrEmpty(callbackURL) || string.IsNullOrEmpty(server_Session_Secret))
         {
             throw new ApplicationException("Missing required environment variables APS_CLIENT_ID, APS_CLIENT_SECRET, or APS_CALLBACK_URL.");
         }
-        services.AddSingleton<APS>(new APS(clientID, clientSecret, callbackURL));
+        services.AddSingleton(new APS(clientID, clientSecret, callbackURL));
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

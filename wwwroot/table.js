@@ -1,4 +1,4 @@
-const TABLE_TABS = {
+﻿const TABLE_TABS = {
     'PROJECTS': {
         'REQUEST_URL': '/api/admin/projects',
         'TAB_NAME': 'PROJECTS',
@@ -35,7 +35,7 @@ class Table {
         this.#projectId = projectId;
         this.#tabKey = tabKey;
         this.#dataSet = null;
-        this.#maxItem = 2;
+        this.#maxItem = 5;
     };
 
     get tabKey() {
@@ -72,7 +72,7 @@ class Table {
         }
     }
 
-    drawTable = () => {
+    drawTable = async () => {
         if (this.#dataSet == null || this.#dataSet.length == 0) {
             console.warn('DataSet is not ready, please fetch your data first.');
             return;
@@ -217,16 +217,11 @@ class Table {
                             'projectId': this.#projectId,
                             'data': requestDataList
                         }
-                        const headers = {
-                            'Content-Type': 'application/json'
-                        }
                         const url = TABLE_TABS[this.#tabKey].REQUEST_URL;
                         try {
-                            const resp = await axios.post(url, JSON.stringify( data), {
-                                headers: headers
-                            });
-                            resp.data.Succeed && resp.data.Succeed.forEach(item => console.log(item + ' is created'));
-                            resp.data.Failed && resp.data.Failed.forEach(item => console.warn(item + ' failed to be created'));
+                            const resp = await axios.post(url, data);                           
+                            resp.data.Succeed && resp.data.succeed.forEach(item => console.log(item + ' is created'));
+                            resp.data.Failed && resp.data.failed.forEach(item => console.warn(item + ' failed to be created'));
                             await sleep(3000);
                             await this.resetData();
                         } catch (err) {
@@ -278,7 +273,7 @@ export async function refreshTable(accountId = null, projectId = null) {
     const activeTab = $("ul#adminTableTabs li.active")[0].id;
     try {
         await g_accDataTable.resetData(activeTab, accountId, projectId);
-        g_accDataTable.drawTable();
+        await g_accDataTable.drawTable();
     } catch (err) {
         console.warn(err);
     }
