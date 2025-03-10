@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Autodesk.Authentication;
 using Autodesk.Authentication.Model;
@@ -16,7 +16,7 @@ public partial class APS
     public async Task<Tokens> GenerateTokens(string code)
     {
         AuthenticationClient authenticationClient = new AuthenticationClient(_SDKManager);
-        dynamic Token = await authenticationClient.GetThreeLeggedTokenAsync(_clientId, _clientSecret, code, _callbackUri);
+        dynamic Token = await authenticationClient.GetThreeLeggedTokenAsync(_clientId,code,_callbackUri, _clientSecret);
         
         return new Tokens
         {
@@ -29,7 +29,7 @@ public partial class APS
     public async Task<Tokens> RefreshTokens(Tokens tokens)
     {
         AuthenticationClient authenticationClient = new AuthenticationClient(_SDKManager);
-        dynamic Token = await authenticationClient.GetRefreshTokenAsync(_clientId, _clientSecret, tokens.RefreshToken, TokenScopes);
+        dynamic Token = await authenticationClient.RefreshTokenAsync(tokens.RefreshToken, _clientId, _clientSecret,TokenScopes);
         return new Tokens
         {
             AccessToken = Token.AccessToken,

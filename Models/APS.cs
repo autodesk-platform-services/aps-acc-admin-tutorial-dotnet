@@ -1,12 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Autodesk.SDKManager;
 using Autodesk.Authentication.Model;
 
 public class Tokens
 {
-    public string AccessToken;
-    public string RefreshToken;
+    public string? AccessToken;
+    public string? RefreshToken;
     public DateTime ExpiresAt;
 }
 

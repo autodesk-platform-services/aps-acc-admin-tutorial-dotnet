@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -20,18 +21,19 @@ public class AdminController : ControllerBase
     }
 
     [HttpGet("projects")]
-    public async Task<ActionResult<string>> ListProjects(string hub)
+    public async Task<ActionResult<string>> ListProjects()
     {
         var tokens = await AuthController.PrepareTokens(Request, Response, _aps);
-        if (tokens == null){
+        if (tokens == null)
+        {
             return Unauthorized();
         }
-        var projects = await _aps.getProjectsACC(Request.Query["accountId"], tokens);
+        var projects = await _aps.GetProjectsACC(Request.Query["accountId"], tokens);
         return JsonConvert.SerializeObject(projects);
     }
 
     [HttpGet("project")]
-    public async Task<ActionResult<string>> ListProject( string projectId)
+    public async Task<ActionResult<string>> ListProject(string projectId)
     {
         var tokens = await AuthController.PrepareTokens(Request, Response, _aps);
         if (tokens == null)
@@ -45,8 +47,9 @@ public class AdminController : ControllerBase
 
 
     [HttpGet("project/users")]
-    public async Task<ActionResult<string>> ListProjectUsers( string projectId)
+    public async Task<ActionResult<string>> ListProjectUsers(string projectId)
     {
+
         var tokens = await AuthController.PrepareTokens(Request, Response, _aps);
         if (tokens == null)
         {
@@ -66,7 +69,7 @@ public class AdminController : ControllerBase
             return Unauthorized();
         }
         List<string> projectsCreated = new List<string>();
-        List<string> projectsFailed = new List<string>(); 
+        List<string> projectsFailed = new List<string>();
         string accountId = content["accountId"].Value<string>();
         dynamic projects = content["data"].Value<dynamic>();
         foreach (JObject project in projects)
@@ -77,13 +80,14 @@ public class AdminController : ControllerBase
                 projectsCreated.Add(projectInfo.Name);
                 var profile = await _aps.GetUserProfile(tokens);
                 var userInfo = await _aps.AddProjectAdminACC(projectInfo.Id, profile.Email, tokens);
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine($"Exception when creating project: {ex.Message}");
                 projectsFailed.Add(project["name"].Value<string>());
             }
         }
-        return Ok(new {Succeed = projectsCreated, Failed = projectsFailed });
+        return Ok(new { Succeed = projectsCreated, Failed = projectsFailed });
     }
 
     [HttpPost("project/users")]
@@ -99,7 +103,6 @@ public class AdminController : ControllerBase
         dynamic body = new JObject();
         body.users = users;
         dynamic usersInfo = await _aps.ImportProjectUsersACC(projectId, body, tokens);
-        return Ok(new { UserInfo= usersInfo });
+        return Ok(new { UserInfo = usersInfo });
     }
-
 }
