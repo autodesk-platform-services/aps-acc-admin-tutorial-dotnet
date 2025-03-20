@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text.Json;
+using Autodesk.Construction.AccountAdmin.Model;
+using System.Linq;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -35,21 +37,23 @@ public class AdminController : ControllerBase
     [HttpGet("project")]
     public async Task<ActionResult<string>> ListProject(string projectId)
     {
+        IList<Project> projectList=new List<Project>();
+
         var tokens = await AuthController.PrepareTokens(Request, Response, _aps);
         if (tokens == null)
         {
             return Unauthorized();
         }
 
-        var projects = await _aps.GetProjectACC(Request.Query["projectId"], tokens);
-        return JsonConvert.SerializeObject(projects);
+        var projectInfo = await _aps.GetProjectACC(Request.Query["projectId"], tokens);
+        projectList.Add(projectInfo);
+        return JsonConvert.SerializeObject(projectList);
     }
 
 
     [HttpGet("project/users")]
     public async Task<ActionResult<string>> ListProjectUsers(string projectId)
     {
-
         var tokens = await AuthController.PrepareTokens(Request, Response, _aps);
         if (tokens == null)
         {
@@ -61,7 +65,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpPost("projects")]
-    public async Task<ActionResult> CreateProjects([FromBody] JObject content)
+    public async Task<IActionResult> CreateProjects([FromBody] JObject content)
     {
         var tokens = await AuthController.PrepareTokens(Request, Response, _aps);
         if (tokens == null)
@@ -71,22 +75,30 @@ public class AdminController : ControllerBase
         List<string> projectsCreated = new List<string>();
         List<string> projectsFailed = new List<string>();
         string accountId = content["accountId"].Value<string>();
-        dynamic projects = content["data"].Value<dynamic>();
-        foreach (JObject project in projects)
+        var projects = (content["data"] as JArray)?.Select(p => (JObject)p).ToList();
+        var tasks = projects.Select(async project =>
         {
+            var projectInfo = await _aps.CreateProjectACC(accountId, project, tokens);
             try
             {
-                var projectInfo = await _aps.CreateProject(accountId, project, tokens);
                 projectsCreated.Add(projectInfo.Name);
+
+                while (projectInfo.Status != "active")
+                {
+                    await Task.Delay(1000);
+                    projectInfo = await _aps.GetProjectACC(projectInfo.Id, tokens);
+                }
+
                 var profile = await _aps.GetUserProfile(tokens);
-                var userInfo = await _aps.AddProjectAdminACC(projectInfo.Id, profile.Email, tokens);
+                await _aps.AddProjectAdminACC(projectInfo.Id, profile.Email, tokens);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Exception when creating project: {ex.Message}");
-                projectsFailed.Add(project["name"].Value<string>());
+                projectsFailed.Add(projectInfo.Name);
             }
-        }
+        });
+        await Task.WhenAll(tasks);
         return Ok(new { Succeed = projectsCreated, Failed = projectsFailed });
     }
 

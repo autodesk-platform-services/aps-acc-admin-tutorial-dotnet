@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Autodesk.Authentication;
 using Autodesk.Authentication.Model;
@@ -8,8 +8,7 @@ public partial class APS
     public string GetAuthorizationURL()
     {
         AuthenticationClient authenticationClient = new AuthenticationClient(_SDKManager);
-        ResponseType responseType = ResponseType.Code;
-        return authenticationClient.Authorize(_clientId, responseType, _callbackUri, TokenScopes);
+        return authenticationClient.Authorize(_clientId, ResponseType.Code, _callbackUri, TokenScopes);
 
     }
 

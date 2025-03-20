@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Autodesk.Construction.AccountAdmin;
 using Autodesk.Construction.AccountAdmin.Model;
@@ -9,14 +9,14 @@ using Newtonsoft.Json.Linq;
 public partial class APS
 {
     public async Task<IEnumerable<dynamic>> GetProjectsACC(string accountId, Tokens tokens)
-    {
+   {
         AdminClient adminClient = new AdminClient(_SDKManager);
         List<Project> allProjects = new List<Project>();
         var offset = 0;
         var totalResult = 0;
         do
         {
-            var projects = await adminClient.GetProjectsAsync(accountId,accessToken:tokens.AccessToken);
+            var projects = await adminClient.GetProjectsAsync(accountId,offset:offset,accessToken:tokens.AccessToken);
             allProjects.AddRange(projects.Results);
             offset += (int)projects.Pagination.Limit;
             totalResult = (int)projects.Pagination.TotalResults;
@@ -24,13 +24,11 @@ public partial class APS
         return allProjects;
     }
 
-    public async Task<IEnumerable<dynamic>> GetProjectACC(string projectId, Tokens tokens)
+    public async Task<dynamic> GetProjectACC(string projectId, Tokens tokens)
     {
         AdminClient adminClient = new AdminClient(_SDKManager);
-        var project = await adminClient.GetProjectAsync(projectId, accessToken: tokens.AccessToken);
-        var projects = new List<Project>();
-        projects.Add(project);
-        return projects;
+        var project = await adminClient.GetProjectAsync(projectId, accessToken: tokens.AccessToken);       
+        return project;
     }
 
 
@@ -42,7 +40,7 @@ public partial class APS
         var totalResult = 0;
         do
         {
-            var users = await adminClient.GetProjectUsersAsync(projectId, accessToken: tokens.AccessToken );
+            var users = await adminClient.GetProjectUsersAsync(projectId, offset: offset, accessToken: tokens.AccessToken );
             allUsers.AddRange(users.Results);            
             offset += (int)users.Pagination.Limit;
             totalResult = (int)users.Pagination.TotalResults;
@@ -51,7 +49,7 @@ public partial class APS
     }
 
 
-    public async Task<dynamic> CreateProject(string accountId, JObject body, Tokens tokens)
+    public async Task<dynamic> CreateProjectACC(string accountId, JObject body, Tokens tokens)
     {
         AdminClient adminClient = new AdminClient(_SDKManager);
         var projectPayload = body.ToObject<ProjectPayload>();

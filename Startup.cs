@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +24,7 @@ public class Startup
         var server_Session_Secret = Configuration["SERVER_SESSION_SECRET"];
         if (string.IsNullOrEmpty(clientID) || string.IsNullOrEmpty(clientSecret) || string.IsNullOrEmpty(callbackURL) || string.IsNullOrEmpty(server_Session_Secret))
         {
-            throw new ApplicationException("Missing required environment variables APS_CLIENT_ID, APS_CLIENT_SECRET, or APS_CALLBACK_URL.");
+            throw new ApplicationException("Missing required environment variables APS_CLIENT_ID, APS_CLIENT_SECRET,APS_CALLBACK_URL or SERVER_SESSION_SECRET");
         }
         services.AddSingleton(new APS(clientID, clientSecret, callbackURL));
     }

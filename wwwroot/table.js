@@ -1,4 +1,4 @@
-﻿const TABLE_TABS = {
+const TABLE_TABS = {
     'PROJECTS': {
         'REQUEST_URL': '/api/admin/projects',
         'TAB_NAME': 'PROJECTS',
@@ -38,25 +38,25 @@ class Table {
         this.#maxItem = 5;
     };
 
-    get tabKey() {
+    get tabKey(){
         return this.#tabKey;
     }
 
-    set tabKey(tabKey) {
+    set tabKey( tabKey){
         this.#tabKey = tabKey;
     }
 
-    resetData = async (tabKey = null, accountId = null, projectId = null) => {
-        this.#tabKey = tabKey ? tabKey : this.#tabKey;
-        this.#accountId = accountId ? accountId : this.#accountId;
-        this.#projectId = accountId || projectId ? projectId : this.#projectId;
+    resetData = async( tabKey=null, accountId=null, projectId=null ) =>{
+        this.#tabKey = tabKey? tabKey: this.#tabKey;
+        this.#accountId = accountId? accountId: this.#accountId;
+        this.#projectId = accountId||projectId? projectId: this.#projectId;
         const url = TABLE_TABS[this.#tabKey].REQUEST_URL;
         const data = {
             'accountId': this.#accountId,
             'projectId': this.#projectId
         }
         try {
-            const response = await axios.get(url, { params: data });
+            const response = await axios.get(url, { params: data } );
             this.#dataSet = response.data;
         } catch (err) {
             console.error(err);
@@ -72,7 +72,7 @@ class Table {
         }
     }
 
-    drawTable = async () => {
+    drawTable = () => {
         if (this.#dataSet == null || this.#dataSet.length == 0) {
             console.warn('DataSet is not ready, please fetch your data first.');
             return;
@@ -121,7 +121,7 @@ class Table {
         });
     }
 
-    exportToCSV = () => {
+    exportToCSV = ()=>{
         if (this.#dataSet == null || this.#dataSet.length == 0) {
             console.warn('DataSet is not ready, please fetch your data first.');
             return;
@@ -151,7 +151,7 @@ class Table {
         a.click();
     }
 
-    importFromCSV = async () => {
+    importFromCSV = async() => {
         let input = document.createElement('input');
         input.type = 'file';
         input.onchange = _ => {
@@ -219,9 +219,9 @@ class Table {
                         }
                         const url = TABLE_TABS[this.#tabKey].REQUEST_URL;
                         try {
-                            const resp = await axios.post(url, data);                           
-                            resp.data.Succeed && resp.data.succeed.forEach(item => console.log(item + ' is created'));
-                            resp.data.Failed && resp.data.failed.forEach(item => console.warn(item + ' failed to be created'));
+                            const resp = await axios.post(url, data);
+                            resp.data.succeed && resp.data.succeed.forEach( item => console.log( item + ' is created'));
+                            resp.data.failed && resp.data.failed.forEach( item => console.warn( item + ' failed to be created') );
                             await sleep(3000);
                             await this.resetData();
                         } catch (err) {
@@ -239,23 +239,24 @@ class Table {
             }
         };
         input.click();
-    }
+    }    
 }
 
-export async function refreshTable(accountId = null, projectId = null) {
+
+export async function refreshTable( accountId = null, projectId=null ) {
     $("#loadingoverlay").fadeIn()
-    if (TABLE_TABS[g_accDataTable.tabKey].CATEGORY_NAME == 'hub' && projectId) {
+    if( TABLE_TABS[g_accDataTable.tabKey].CATEGORY_NAME=='hub' && projectId ){
         for (let key in TABLE_TABS) {
-            if (TABLE_TABS[key].CATEGORY_NAME == 'hub') {
+            if( TABLE_TABS[key].CATEGORY_NAME == 'hub' ){
                 $("#" + key).addClass("hidden");
                 $("#" + key).removeClass("active");
             }
-            else {
-                if (TABLE_TABS[key].CATEGORY_DEFAULT)
+            else{
+                if( TABLE_TABS[key].CATEGORY_DEFAULT )
                     $("#" + key).addClass("active");
                 $("#" + key).removeClass("hidden");
             }
-        }
+        } 
     }
     if (TABLE_TABS[g_accDataTable.tabKey].CATEGORY_NAME == 'project' && !projectId) {
         for (let key in TABLE_TABS) {
@@ -271,21 +272,21 @@ export async function refreshTable(accountId = null, projectId = null) {
         }
     }
     const activeTab = $("ul#adminTableTabs li.active")[0].id;
-    try {
-        await g_accDataTable.resetData(activeTab, accountId, projectId);
-        await g_accDataTable.drawTable();
-    } catch (err) {
+    try{
+        await g_accDataTable.resetData( activeTab, accountId, projectId );
+        g_accDataTable.drawTable();
+    }catch(err){
         console.warn(err);
     }
     $("#loadingoverlay").fadeOut()
 }
 
-export async function initTableTabs() {
+export async function initTableTabs(){
     // add all tabs
     for (let key in TABLE_TABS) {
         $('<li id=' + key + '><a href="accTable" data-toggle="tab">' + TABLE_TABS[key].TAB_NAME + '</a></li>').appendTo('#adminTableTabs');
         $("#" + key).addClass((TABLE_TABS[key].CATEGORY_NAME == 'hub' && TABLE_TABS[key].CATEGORY_DEFAULT) ? "active" : "hidden");
-    }
+    } 
     // event on the tabs
     $('a[data-toggle="tab"]').on('shown.bs.tab', async function (e) {
         $("#loadingoverlay").fadeIn()
@@ -295,9 +296,9 @@ export async function initTableTabs() {
             g_accDataTable.drawTable();
         } catch (err) {
             console.warn(err);
-        }
+        }    
         $("#loadingoverlay").fadeOut()
-    });
+    });  
 }
 
-var g_accDataTable = new Table('#accTable');
+var g_accDataTable = new Table('#accTable' );

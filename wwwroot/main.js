@@ -1,4 +1,4 @@
-﻿import { refreshTable, initTableTabs } from './table.js';
+import { refreshTable, initTableTabs } from './table.js';
 import { initTree } from './sidebar.js';
 
 const login = document.getElementById('login');

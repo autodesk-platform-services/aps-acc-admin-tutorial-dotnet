@@ -1,4 +1,4 @@
-﻿body, html {
+body, html {
     margin: 0;
     padding: 0;
     height: 100vh;
@@ -34,7 +34,7 @@
     overflow-y: scroll;
 }
 
-#loadingoverlay {
+#loadingoverlay{
     top: 3em;
     z-index: 90;
     width: 100%;
@@ -63,7 +63,6 @@
     0% {
         transform: rotate(0deg);
     }
-
     100% {
         transform: rotate(359deg);
     }
@@ -88,7 +87,7 @@
     margin: 0.5em;
 }
 
-#workingAnimation {
+#workingAnimation {    
     text-align: center;
 }
 
@@ -98,7 +97,6 @@
         top: 3em;
         bottom: 75%;
     }
-
     #table {
         width: 100%;
         top: 25%;
@@ -112,6 +110,7 @@
 }
 
 .icon-project:before {
+    
     background-image: url(https://raw.githubusercontent.com/primer/octicons/main/icons/project-16.svg); /* or https://raw.githubusercontent.com/primer/octicons/main/icons/organization-16.svg */
     background-size: cover;
 }

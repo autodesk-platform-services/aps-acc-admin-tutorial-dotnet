@@ -1,4 +1,4 @@
-﻿async function getJSON(url) {
+async function getJSON(url) {
     const resp = await fetch(url);
     if (!resp.ok) {
         alert('Could not load tree data. See console for more details.');
@@ -42,10 +42,10 @@ export function initTree(selector, onSelectionChanged) {
         event.preventTreeDefault();
         const tokens = node.id.split('|');
         if (tokens[0] === 'hub') {
-            onSelectionChanged(tokens[1], null);
+            onSelectionChanged( tokens[1], null);
         }
         if (tokens[0] === 'project') {
-            onSelectionChanged(tokens[1], tokens[2]);
+            onSelectionChanged( tokens[1], tokens[2]);
         }
     });
     return new InspireTreeDOM(tree, { target: selector });
