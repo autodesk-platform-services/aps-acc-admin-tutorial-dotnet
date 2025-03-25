@@ -457,3 +457,4 @@ $RECYCLE.BIN/
 .env*
 appsettings.Development.json
 /Properties/launchSettings.json
+*.sln

@@ -78,28 +78,26 @@ public class AdminController : ControllerBase
         var projects = (content["data"] as JArray)?.Select(p => (JObject)p).ToList();
         var tasks = projects.Select(async project =>
         {
-            var projectInfo = await _aps.CreateProjectACC(accountId, project, tokens);
             try
             {
+                var projectInfo = await _aps.CreateProjectACC(accountId, project, tokens);
                 projectsCreated.Add(projectInfo.Name);
-
                 while (projectInfo.Status != "active")
                 {
                     await Task.Delay(1000);
                     projectInfo = await _aps.GetProjectACC(projectInfo.Id, tokens);
                 }
-
                 var profile = await _aps.GetUserProfile(tokens);
                 await _aps.AddProjectAdminACC(projectInfo.Id, profile.Email, tokens);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Exception when creating project: {ex.Message}");
-                projectsFailed.Add(projectInfo.Name);
+                projectsFailed.Add(project["name"].Value<string>());
             }
         });
         await Task.WhenAll(tasks);
-        return Ok(new { Succeed = projectsCreated, Failed = projectsFailed });
+        return Ok(new { succeed = projectsCreated, failed = projectsFailed });
     }
 
     [HttpPost("project/users")]
