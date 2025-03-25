@@ -1,12 +1,12 @@
 # ACC Admin Tutorial (.NET)
 
 ![platforms](https://img.shields.io/badge/platform-windows%20%7C%20osx%20%7C%20linux-lightgray.svg)
-[![.net](https://img.shields.io/badge/net-6.0-blue.svg)](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+[![.net](https://img.shields.io/badge/net-8.0-blue.svg)](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 [![license](https://img.shields.io/:license-mit-green.svg)](https://opensource.org/licenses/MIT)
 
 [Autodesk Platform Services](https://aps.autodesk.com) application built by following
-the [ACC Administractor](https://tutorials.autodesk.io/tutorials/acc-admin/) tutorial
-from https://tutorials.autodesk.io.
+the [ACC Administractor](https://get-started.aps.autodesk.com/tutorials/acc-admin/) tutorial
+from https://get-started.aps.autodesk.com.
 
 ![thumbnail](thumbnail.png)
 
