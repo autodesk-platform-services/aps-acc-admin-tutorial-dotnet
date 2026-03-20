@@ -15,7 +15,7 @@ from https://get-started.aps.autodesk.com.
 ### Prerequisites
 
 - [APS credentials](https://aps.autodesk.com/en/docs/oauth/v2/tutorials/create-app)
-- [Forma for Construction](https://fieldofviewblog.wordpress.com/2017/08/31/bim-360-acc-account-for-development/)
+- [Autodesk Forma](https://fieldofviewblog.wordpress.com/2017/08/31/bim-360-acc-account-for-development/)
 - Provisioned access to [Autodesk Forma](https://tutorials.autodesk.io/#provision-access-in-other-products)
 - [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 - Terminal (for example, [Windows Command Prompt](https://en.wikipedia.org/wiki/Cmd.exe)
