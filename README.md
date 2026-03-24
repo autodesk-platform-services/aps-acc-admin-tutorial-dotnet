@@ -1,11 +1,11 @@
-# ACC Admin Tutorial (.NET)
+# Forma Admin Tutorial (.NET)
 
 ![platforms](https://img.shields.io/badge/platform-windows%20%7C%20osx%20%7C%20linux-lightgray.svg)
 [![.net](https://img.shields.io/badge/net-8.0-blue.svg)](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 [![license](https://img.shields.io/:license-mit-green.svg)](https://opensource.org/licenses/MIT)
 
 [Autodesk Platform Services](https://aps.autodesk.com) application built by following
-the [ACC Administractor](https://get-started.aps.autodesk.com/tutorials/acc-admin/) tutorial
+the [Forma Administrator](https://get-started.aps.autodesk.com/tutorials/acc-admin/) tutorial
 from https://get-started.aps.autodesk.com.
 
 ![thumbnail](thumbnail.png)
@@ -15,8 +15,8 @@ from https://get-started.aps.autodesk.com.
 ### Prerequisites
 
 - [APS credentials](https://aps.autodesk.com/en/docs/oauth/v2/tutorials/create-app)
-- [Autodesk Construction Cloud](https://fieldofviewblog.wordpress.com/2017/08/31/bim-360-acc-account-for-development/)
-- Provisioned access to [Autodesk Construction Cloud](https://tutorials.autodesk.io/#provision-access-in-other-products)
+- [Autodesk Forma](https://fieldofviewblog.wordpress.com/2017/08/31/bim-360-acc-account-for-development/)
+- Provisioned access to [Autodesk Forma](https://tutorials.autodesk.io/#provision-access-in-other-products)
 - [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 - Terminal (for example, [Windows Command Prompt](https://en.wikipedia.org/wiki/Cmd.exe)
 or [macOS Terminal](https://support.apple.com/guide/terminal/welcome/mac))
